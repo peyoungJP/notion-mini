@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "../src/features/ui/dads.css";
 
 :root {
   --background: #ffffff;
