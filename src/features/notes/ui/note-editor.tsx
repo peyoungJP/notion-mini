@@ -20,6 +20,7 @@ export function NoteEditor({ mode }: NoteEditorProps) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [fieldError, setFieldError] = useState<{ title?: string; body?: string }>({});
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
@@ -61,9 +62,18 @@ export function NoteEditor({ mode }: NoteEditorProps) {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
+    setFieldError({});
 
-    if (!title.trim() || !body.trim()) {
-      setError("title と body は必須です。");
+    const nextFieldError: { title?: string; body?: string } = {};
+    if (!title.trim()) {
+      nextFieldError.title = "タイトルは必須です。";
+    }
+    if (!body.trim()) {
+      nextFieldError.body = "本文は必須です。";
+    }
+    if (nextFieldError.title || nextFieldError.body) {
+      setFieldError(nextFieldError);
+      setError("入力内容を確認してください。");
       return;
     }
 
@@ -81,7 +91,7 @@ export function NoteEditor({ mode }: NoteEditorProps) {
         return;
       }
 
-      router.replace("/notes");
+      router.replace("/notes?status=created");
       return;
     }
 
@@ -102,7 +112,7 @@ export function NoteEditor({ mode }: NoteEditorProps) {
       return;
     }
 
-    router.replace("/notes");
+    router.replace("/notes?status=updated");
   }
 
   if (loading) {
@@ -153,9 +163,10 @@ export function NoteEditor({ mode }: NoteEditorProps) {
                   value={title}
                   onChange={(event) => setTitle(event.target.value)}
                   required
-                  aria-invalid={error ? "true" : "false"}
+                  aria-invalid={fieldError.title ? "true" : "false"}
                 />
               </span>
+              {fieldError.title ? <p className="dads-field-error">{fieldError.title}</p> : null}
             </div>
           </div>
 
@@ -174,12 +185,22 @@ export function NoteEditor({ mode }: NoteEditorProps) {
                 onChange={(event) => setBody(event.target.value)}
                 required
                 rows={8}
-                aria-invalid={error ? "true" : "false"}
+                aria-invalid={fieldError.body ? "true" : "false"}
               />
+              {fieldError.body ? <p className="dads-field-error">{fieldError.body}</p> : null}
             </div>
           </div>
 
           <div className="dads-note-editor-actions">
+            <button
+              className="dads-button"
+              data-size="md"
+              data-type="outline"
+              type="button"
+              onClick={() => router.push("/notes")}
+            >
+              Cancel
+            </button>
             <button
               className="dads-button"
               data-size="md"

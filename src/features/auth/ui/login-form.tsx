@@ -15,6 +15,7 @@ export function LoginForm() {
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [checkingSession, setCheckingSession] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
   const modeLabel = useMemo(
     () => (mode === "signIn" ? "Sign in" : "Sign up"),
@@ -98,7 +99,11 @@ export function LoginForm() {
       <h1 id="auth-page-title" className="dads-heading">
         Authentication
       </h1>
-      <p className="dads-subheading">Sign in or create a new account with email/password.</p>
+      <p className="dads-subheading">
+        {mode === "signIn"
+          ? "既存アカウントでサインインします。"
+          : "メールアドレスで新規アカウントを作成します。"}
+      </p>
 
       <div className="dads-auth-actions" role="tablist" aria-label="Authentication mode">
         <button
@@ -165,12 +170,12 @@ export function LoginForm() {
             Minimum 6 characters.
           </p>
           <div>
-            <span className="dads-input-text">
+            <span className="dads-input-text dads-password-field">
               <input
                 id="auth-password-input"
                 className="dads-input-text__input"
                 data-size="md"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 autoComplete={mode === "signIn" ? "current-password" : "new-password"}
@@ -178,6 +183,15 @@ export function LoginForm() {
                 aria-invalid={error ? "true" : "false"}
                 aria-describedby={error ? `${errorId} ${passwordSupportId}` : passwordSupportId}
               />
+              <button
+                className="dads-button"
+                data-size="sm"
+                data-type="outline"
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
             </span>
           </div>
         </div>
