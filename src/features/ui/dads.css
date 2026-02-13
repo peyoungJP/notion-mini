@@ -328,3 +328,32 @@
   color: var(--color-neutral-solid-gray-700);
   line-height: 1.7;
 }
+
+.dads-notes-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: calc(12 / 16 * 1rem);
+}
+
+.dads-notes-item {
+  border: 1px solid var(--color-neutral-solid-gray-300);
+  border-radius: calc(8 / 16 * 1rem);
+  padding: calc(14 / 16 * 1rem) calc(16 / 16 * 1rem);
+  background-color: var(--color-neutral-white);
+}
+
+.dads-notes-item__title {
+  margin: 0;
+  color: var(--color-neutral-solid-gray-900);
+  font-weight: bold;
+  line-height: 1.6;
+}
+
+.dads-notes-item__meta {
+  margin: calc(4 / 16 * 1rem) 0 0;
+  color: var(--color-neutral-solid-gray-600);
+  font-size: calc(14 / 16 * 1rem);
+  line-height: 1.5;
+}
