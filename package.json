@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint .",
+    "lint": "eslint . --ignore-pattern 'vendor/dads-html/**'",
     "format": "prettier -w .",
     "test": "echo \"(tests pending)\""
   },

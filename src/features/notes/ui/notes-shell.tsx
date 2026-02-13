@@ -1,5 +1,6 @@
 "use client";
 
+// Based on digital-go-jp/design-system-example-components-html
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/src/lib/supabase/client";
@@ -13,12 +14,10 @@ export function NotesShell() {
   useEffect(() => {
     void (async () => {
       const { data } = await supabase.auth.getSession();
-
       if (!data.session) {
         router.replace("/login");
         return;
       }
-
       setEmail(data.session.user.email ?? null);
       setCheckingSession(false);
     })();
@@ -26,24 +25,29 @@ export function NotesShell() {
 
   if (checkingSession) {
     return (
-      <main className="mx-auto flex min-h-screen w-full max-w-4xl items-center px-6">
-        <p className="text-sm text-zinc-600">Loading...</p>
+      <main className="dads-notes-page" aria-live="polite">
+        <section className="dads-notes-card">
+          <h1 className="dads-heading">Notes</h1>
+          <p className="dads-subheading">Loading your account...</p>
+        </section>
       </main>
     );
   }
 
   return (
-    <main className="mx-auto min-h-screen w-full max-w-4xl px-6 py-8">
-      <header className="mb-8 flex items-center justify-between border-b border-zinc-200 pb-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-zinc-900">Notes</h1>
-          {email ? <p className="text-sm text-zinc-600">{email}</p> : null}
-        </div>
-        <LogoutButton />
-      </header>
+    <main className="dads-notes-page">
+      <section className="dads-notes-card">
+        <header className="dads-notes-header">
+          <div>
+            <h1 className="dads-heading">Notes</h1>
+            <p className="dads-subheading">{email ?? "Signed in user"}</p>
+          </div>
+          <LogoutButton />
+        </header>
 
-      <section className="rounded-lg border border-dashed border-zinc-300 p-6">
-        <p className="text-zinc-700">Notes feature is ready for CRUD implementation.</p>
+        <p className="dads-notes-placeholder">
+          Your authenticated workspace is ready. Notes CRUD UI can be implemented in this area.
+        </p>
       </section>
     </main>
   );
